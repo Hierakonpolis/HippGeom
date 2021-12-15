@@ -1355,12 +1355,10 @@ if not Epibios:
     D = DET
     name = 'ET'
 
-# print(ADAforest(D, 150, shap_plot_name=name + str(150) + '_TBI+_TBI-.png', lesiononly=True,bootstrap=False,jobs=None,depth=1))
-#%%
-# results = {}
-# for features in [5,10,15,20,25,30]:
-#     test = ManyCVSplits(TopFeatures(D,allBAtrueS1[7],features), timepoint, shap_plot_name=name + str(timepoint) + '_TBI+_TBI-.png', lesiononly=lesion_only,bootstrap=False,jobs=10,verbose=True,depth=1, conflate_lesions=conflate, SplitRandomStates = randstates,BAonly = False)
-#     results[features]=RunsAcc(test)
+allBAtrue = {}
+allBAtrue1 = {}
+allBAtrueS = {}
+allBAtrueS1 = {}
 plt.rcParams.update({'font.size': 13})
 conflate=False
 lesion_only=True
@@ -1371,15 +1369,13 @@ forpaperfig, forpaperax = plt.subplots(3,1,figsize=(12,5.3*3))
 figure, axis = plt.subplots(1, 2,figsize=(12,5.3))
 figure_imp, axis_imp = plt.subplots(4, 1,figsize=(12,5.3*4))
 
-allBAtrue = pickle.load(open('allBAtrue.p','rb'))#allBAtrue={}
-allBAtrue1 = pickle.load(open('allBAtrue1.p','rb'))#allBAtrue1={}
 for k, timepoint in enumerate([2,9,30,150]):
     fname = None
 
     t1 = str(timepoint)+' days'
     t2 = str(timepoint)+' days'
-    # allBAtrue[timepoint] = ManyCVSplits(D, None, shap_plot_name=name + str(timepoint) + '_TBI+_TBI-.png', lesiononly=lesion_only,bootstrap=False,jobs=None,verbose=True,
-    #                           depth=1, conflate_lesions=conflate, SplitRandomStates = randstates,BAonly = False)
+    allBAtrue[timepoint] = ManyCVSplits(D, None, shap_plot_name=name + str(timepoint) + '_TBI+_TBI-.png', lesiononly=lesion_only,bootstrap=False,jobs=None,verbose=True,
+                              depth=1, conflate_lesions=conflate, SplitRandomStates = randstates,BAonly = False)
     MakeROC(allBAtrue[timepoint],axis[0],str(timepoint) + ' d, ','EpiBioS4Rx TBI+ $vs.$ TBI-',fname)
     ImportancePlot(allBAtrue[timepoint],axis_imp[k],None,t1,t2)
 
@@ -1404,8 +1400,8 @@ for k, timepoint in enumerate([2,7,21]):
         fname = 'roc.eps'
     else:
         fname = None
-    # allBAtrue1[timepoint] = ManyCVSplits(DET, timepoint, shap_plot_name=name + str(timepoint) + '_TBI+_TBI-.png', lesiononly=lesion_only,bootstrap=False,jobs=None,verbose=True,
-    #                           depth=1, conflate_lesions=conflate, SplitRandomStates = randstates,BAonly = False)
+    allBAtrue1[timepoint] = ManyCVSplits(DET, timepoint, shap_plot_name=name + str(timepoint) + '_TBI+_TBI-.png', lesiononly=lesion_only,bootstrap=False,jobs=None,verbose=True,
+                              depth=1, conflate_lesions=conflate, SplitRandomStates = randstates,BAonly = False)
     MakeROC(allBAtrue1[timepoint],axis[1],str(timepoint) + ' d, ','EPITARGET TBI+ $vs.$ TBI-',fname)
     ImportancePlot(allBAtrue1[timepoint],axis_imp[k],None,t1,t2)
 
@@ -1430,8 +1426,8 @@ for k, timepoint in enumerate([2,9,30,150]):
 
     t1 = str(timepoint)+' days'
     t2 = str(timepoint)+' days'
-    # allBAtrueS[timepoint] = ManyCVSplits(D, timepoint, shap_plot_name=name + str(timepoint) + '_TBI+_TBI-.png', lesiononly=lesion_only,bootstrap=False,jobs=None,verbose=True,
-    #                           depth=1, conflate_lesions=conflate, SplitRandomStates = randstates,BAonly = False)
+    allBAtrueS[timepoint] = ManyCVSplits(D, timepoint, shap_plot_name=name + str(timepoint) + '_TBI+_TBI-.png', lesiononly=lesion_only,bootstrap=False,jobs=None,verbose=True,
+                               depth=1, conflate_lesions=conflate, SplitRandomStates = randstates,BAonly = False)
     MakeROC(allBAtrueS[timepoint],axis[0],str(timepoint) + ' d, ','EpiBioS4Rx TBI vs Sham',fname)
     ImportancePlot(allBAtrueS[timepoint],axis_imp[k],None,t1,t2)
 ImportancePlot(allBAtrue[150],forpaperax[2],'150 days a','150 days b','TBI+ $vs.$ TBI- at 150 days',None)
@@ -1467,8 +1463,8 @@ for k, timepoint in enumerate([2,7,21]):
         fname = 'roc.eps'
     else:
         fname = None
-    # allBAtrueS1[timepoint] = ManyCVSplits(DET, timepoint, shap_plot_name=name + str(timepoint) + '_TBI+_TBI-.png', lesiononly=lesion_only,bootstrap=False,jobs=None,verbose=True,
-    #                           depth=1, conflate_lesions=conflate, SplitRandomStates = randstates,BAonly = False)
+    allBAtrueS1[timepoint] = ManyCVSplits(DET, timepoint, shap_plot_name=name + str(timepoint) + '_TBI+_TBI-.png', lesiononly=lesion_only,bootstrap=False,jobs=None,verbose=True,
+                              depth=1, conflate_lesions=conflate, SplitRandomStates = randstates,BAonly = False)
     MakeROC(allBAtrueS1[timepoint],axis[1],str(timepoint) + ' d, ','EPITARGET TBI vs Sham',fname)
     ImportancePlot(allBAtrueS1[timepoint],axis_imp[k],None,t1,t2)
 
